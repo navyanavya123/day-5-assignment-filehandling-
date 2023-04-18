@@ -1,0 +1,12 @@
+# Open the input file for reading
+with open("input.txt", "r") as input_file:
+    # Read the contents of the input file
+    input_text = input_file.read()
+
+# Replace all occurrences of "red" with "blue"
+output_text = input_text.replace("red", "blue")
+
+# Open the output file for writing
+with open("output.txt", "w") as output_file:
+    # Write the modified text to the output file
+    output_file.write(output_text)
