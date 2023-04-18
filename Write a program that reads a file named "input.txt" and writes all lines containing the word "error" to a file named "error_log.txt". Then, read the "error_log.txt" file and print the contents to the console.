@@ -1,15 +1,60 @@
-# Open the input file
-with open("input.txt", "r") as input_file:
-    # Open the error log file for writing
-    with open("error_log.txt", "w") as error_file:
-        # Iterate through each line in the input file
-        for line in input_file:
-            # Check if the line contains the word "error"
-            if "error" in line.lower():
-                # Write the line to the error log file
-                error_file.write(line)
+#include <stdio.h>
+#include <string.h>
 
-# Open the error log file for reading
-with open("error_log.txt", "r") as error_file:
-    # Print the contents of the error log file to the console
-    print(error_file.read())
+#define MAX_LINE_LENGTH 1024
+
+int main() {
+    char input_filename[256];
+    char output_filename[256];
+    char line[MAX_LINE_LENGTH];
+    FILE *input_file;
+    FILE *output_file;
+
+   
+    printf("Enter the name of the input file: ");
+    scanf("%s", input_filename);
+
+    input_file = fopen(input_filename, "r");
+    if (input_file == NULL) {
+        printf("Error: Could not open file %s.\n", input_filename);
+        return 1;
+    }
+
+    
+    strcpy(output_filename, "error_log.txt");
+
+    output_file = fopen(output_filename, "w");
+    if (output_file == NULL) {
+        printf("Error: Could not create file %s.\n", output_filename);
+        fclose(input_file);
+        return 1;
+    }
+
+  
+    while (fgets(line, MAX_LINE_LENGTH, input_file) != NULL) {
+        if (strstr(line, "error") != NULL) {
+            fputs(line, output_file);
+        }
+    }
+
+    
+    fclose(input_file);
+    fclose(output_file);
+
+  
+    printf("\nThe contents of error_log.txt are:\n\n");
+
+    output_file = fopen(output_filename, "r");
+    if (output_file == NULL) {
+        printf("Error: Could not open file %s.\n", output_filename);
+        return 1;
+    }
+
+    while (fgets(line, MAX_LINE_LENGTH, output_file) != NULL) {
+        printf("%s", line);
+    }
+
+    fclose(output_file);
+
+    return 0;
+}
