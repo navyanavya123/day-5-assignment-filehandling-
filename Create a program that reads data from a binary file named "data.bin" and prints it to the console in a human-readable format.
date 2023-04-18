@@ -1,0 +1,10 @@
+# Open the binary file for reading in binary mode
+with open("data.bin", "rb") as binary_file:
+    # Read the contents of the binary file
+    binary_data = binary_file.read()
+
+# Convert the binary data to a string
+text_data = binary_data.decode('utf-8')
+
+# Print the string to the console
+print(text_data)
