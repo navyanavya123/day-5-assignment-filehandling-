@@ -1,12 +1,56 @@
-# Open the input file for reading
-with open("input.txt", "r") as input_file:
-    # Read the contents of the input file
-    input_text = input_file.read()
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-# Replace all occurrences of "red" with "blue"
-output_text = input_text.replace("red", "blue")
+#define MAX_LINE_LENGTH 1024
 
-# Open the output file for writing
-with open("output.txt", "w") as output_file:
-    # Write the modified text to the output file
-    output_file.write(output_text)
+int main() {
+    char input_filename[256];
+    char output_filename[256];
+    char line[MAX_LINE_LENGTH];
+    char *pos;
+    int index = 0;
+    int len_red = strlen("red");
+    int len_blue = strlen("blue");
+    FILE *input_file;
+    FILE *output_file;
+
+    // Open the input file for reading
+    printf("Enter the name of the input file: ");
+    scanf("%s", input_filename);
+
+    input_file = fopen(input_filename, "r");
+    if (input_file == NULL) {
+        printf("Error: Could not open file %s.\n", input_filename);
+        return 1;
+    }
+
+    // Open the output file for writing
+    strcpy(output_filename, "output.txt");
+
+    output_file = fopen(output_filename, "w");
+    if (output_file == NULL) {
+        printf("Error: Could not create file %s.\n", output_filename);
+        fclose(input_file);
+        return 1;
+    }
+
+    // Replace all occurrences of "red" with "blue" in each line
+    while (fgets(line, MAX_LINE_LENGTH, input_file) != NULL) {
+        while ((pos = strstr(line, "red")) != NULL) {
+            strncpy(line + index, "blue", len_blue);
+            index += len_blue;
+            pos += len_red;
+            strcpy(line + index, pos);
+        }
+        fputs(line, output_file);
+    }
+
+    // Close the input and output files
+    fclose(input_file);
+    fclose(output_file);
+
+    printf("File has been modified successfully!\n");
+
+    return 0;
+}
