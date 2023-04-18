@@ -1,0 +1,15 @@
+# Open the input file
+with open("input.txt", "r") as input_file:
+    # Open the error log file for writing
+    with open("error_log.txt", "w") as error_file:
+        # Iterate through each line in the input file
+        for line in input_file:
+            # Check if the line contains the word "error"
+            if "error" in line.lower():
+                # Write the line to the error log file
+                error_file.write(line)
+
+# Open the error log file for reading
+with open("error_log.txt", "r") as error_file:
+    # Print the contents of the error log file to the console
+    print(error_file.read())
